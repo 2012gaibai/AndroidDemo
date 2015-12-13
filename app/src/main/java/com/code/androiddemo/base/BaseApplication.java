@@ -1,7 +1,8 @@
-package com.code.androiddemo;
+package com.code.androiddemo.base;
 
 import android.app.Application;
 
+import com.code.androiddemo.BuildConfig;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

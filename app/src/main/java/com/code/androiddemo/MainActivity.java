@@ -1,9 +1,11 @@
 package com.code.androiddemo;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.code.androiddemo.base.BaseAppCompatActivity;
+import com.code.androiddemo.cardslidepanel.CardSlideActivity;
 
 import butterknife.OnClick;
 
@@ -25,8 +27,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @Override
     protected void initViewsAndEvent() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setUpCommonBackToolBar(R.id.toolbar, "主页");
     }
 
     @Override
@@ -46,6 +47,6 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @OnClick(R.id.cardslidepanel)
     public void goCard() {
-        
+        readyGo(CardSlideActivity.class);
     }
 }

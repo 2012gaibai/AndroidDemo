@@ -1,8 +1,10 @@
-package com.code.androiddemo;
+package com.code.androiddemo.base;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import butterknife.ButterKnife;
 
@@ -39,6 +41,24 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    protected void setUpCommonBackToolBar(int toolBarId, String title) {
+        Toolbar mToolbar = ButterKnife.findById(this, toolBarId);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
+        toolBarAsBack(mToolbar);
+    }
+
+    public void toolBarAsBack(Toolbar toolbar) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     /**
