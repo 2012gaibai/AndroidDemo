@@ -16,6 +16,8 @@ public class CardSlideActivity extends BaseFragmentActivity {
     }
 
 
+
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_card_main;
