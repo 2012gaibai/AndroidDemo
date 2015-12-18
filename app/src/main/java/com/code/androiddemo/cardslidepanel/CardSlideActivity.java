@@ -10,6 +10,7 @@ import com.code.androiddemo.base.BaseFragmentActivity;
  * Created by gan on 2015/12/7.
  */
 public class CardSlideActivity extends BaseFragmentActivity {
+
     @Override
     protected void getBundleExtras(Bundle bundle) {
 
@@ -23,5 +24,13 @@ public class CardSlideActivity extends BaseFragmentActivity {
     @Override
     protected void initViewsAndEvent() {
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(null==savedInstanceState){
+//            getSupportFragmentManager().beginTransaction().add(R.id.container,);
+        }
     }
 }
