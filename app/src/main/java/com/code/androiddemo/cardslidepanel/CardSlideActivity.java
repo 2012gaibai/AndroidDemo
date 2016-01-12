@@ -29,8 +29,8 @@ public class CardSlideActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(null==savedInstanceState){
-//            getSupportFragmentManager().beginTransaction().add(R.id.container,);
+        if (null == savedInstanceState) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container,new CardFragment()).commitAllowingStateLoss();
         }
     }
 }
