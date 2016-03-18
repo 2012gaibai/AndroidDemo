@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyyMMdd", java.util.TimeZone.getTimeZone("UTC"));
+}
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -10,21 +14,72 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        multiDexEnabled rootProject.ext.android.multiDexEnabled
+
+        //默认是umeng的渠道
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"]
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    productFlavors {
+        xiaomi {}
+        _360 {}
+        baidu {}
+        wandoujia {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    signingConfigs {
+        debug {
+        }
+        release {
+            storeFile file('../mykey.jks')
+            storePassword "123456"
+            keyAlias "androidgan"
+            keyPassword "123456"
+        }
+    }
+
+
     buildTypes {
         debug {
+            //显示日志
             buildConfigField "boolean", "LOG_DEBUG", "true"
         }
         release {
+            signingConfig signingConfigs.release//不要忘了要在release的时候加入我么的签名配置信息
+
+            //移除无用的resourse文件
+            shrinkResources true
+            //不显示日志
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all {
+                variant ->
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            //输出apk名称为128cai_v1.0_20160318_xiaomi.apk
+                            def fileName = "128cai_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+            }
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile rootProject.ext.dependencies["junit"]
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["support-v4"]
@@ -32,4 +87,5 @@ dependencies {
     compile rootProject.ext.dependencies["klog"]
     compile rootProject.ext.dependencies["universalimageloader"]
     compile rootProject.ext.dependencies["butterknife"]
+    compile 'cn.jiajixin.nuwa:nuwa:1.0.0'
 }
